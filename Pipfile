@@ -5,6 +5,7 @@ name = "pypi"
 
 [packages]
 pytest = "*"
+bloniaq-personal-trainer = {editable = true, path = "."}
 
 [dev-packages]
 
