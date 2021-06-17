@@ -5,7 +5,7 @@ class Controller:
 
     def __init__(self, view, model):
         self.view = view
-        self.model = model
+        self.weight = model
         self._create_view_callbacks()
 
     def _create_view_callbacks(self):
@@ -24,10 +24,10 @@ class Controller:
         date_str, weight_str = self.view.get_measurement()
         date = self._convert_date(date_str)
         weight = float(weight_str)
-        self.model.add_measurement(date, weight)
+        self.weight.add_measurement(date, weight)
 
     def avg_weight(self):
-        avg_weight = self.model.avg_weight()
+        avg_weight = self.weight.avg_weight()
         self.view.show_avg_weight(avg_weight)
 
     def run(self):

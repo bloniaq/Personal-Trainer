@@ -21,7 +21,7 @@ class Test_Console:
         assert controller is not None
         assert controller.add_measurement is not None
         assert controller.avg_weight is not None
-        assert controller.model is not None
+        assert controller.weight is not None
         assert controller.run is not None
 
     def test_console_run_start_and_exit(self, console_weight_controller,
@@ -42,8 +42,8 @@ class Test_Console:
         inputs = iter([weight, date_str])
         monkeypatch.setattr('builtins.input', lambda input: next(inputs))
         controller.add_measurement()
-        assert controller.model.measurements[0][0] == date
-        assert controller.model.measurements[0][1] == float(weight)
+        assert controller.weight.measurements[0][0] == date
+        assert controller.weight.measurements[0][1] == float(weight)
 
     def test_convert_date(self, console_weight_controller):
         controller = console_weight_controller

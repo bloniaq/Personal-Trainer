@@ -23,8 +23,8 @@ def test_three_measurements_console(capsys, monkeypatch):
 
     app = trainer.application.Application()
     view = trainer.view.console.ConsoleView()
-    model = trainer.models.weight.Weight()
-    app.controller = trainer.controller.Controller(view, model)
+    weight = trainer.models.weight.Weight()
+    app.controller = trainer.controller.Controller(view, weight)
     app.run()
 
     captured = capsys.readouterr().out
