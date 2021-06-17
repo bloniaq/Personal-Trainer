@@ -45,12 +45,6 @@ class Test_Console:
         assert controller.weight.measurements[0][0] == date
         assert controller.weight.measurements[0][1] == float(weight)
 
-    def test_convert_date(self, console_weight_controller):
-        controller = console_weight_controller
-        date_str = '2021.05.24 6:52'
-        date = dt(2021, 5, 24, 6, 52)
-        assert controller._convert_date(date_str) == date
-
     def test_avg_weight(self, console_weight_controller, monkeypatch, capsys):
         controller = console_weight_controller
         date_1 = '2021.05.24 6:52'
@@ -65,3 +59,24 @@ class Test_Console:
         message = 'Average weight is 99.0 kg'
         captured = capsys.readouterr().out
         assert message in captured
+
+    def test_show_measurements(self, console_weight_controller, monkeypatch,
+                               capsys):
+        controller = console_weight_controller
+        measurements = [(dt(2021, 6, 10, 7, 53), 45.5),
+                        (dt(2021, 6, 11, 9, 11), 45.3),
+                        (dt(2021, 6, 12, 7, 45), 45.6),
+                        (dt(2021, 6, 13, 7, 45), 46.2),
+                        (dt(2021, 6, 14, 7, 36), 47.8),
+                        (dt(2021, 6, 15, 8, 2), 46.9)]
+        controller.weight.measurements = measurements
+        start_date = '2021.06.12'
+        end_date = '2021.06.14'
+        inputs = iter([start_date, end_date])
+        monkeypatch.setattr('builtins.input', lambda input: next(inputs))
+        expected_outcome = '2021.06.12 07:45:\t45.6 kg\n' \
+                           '2021.06.13 07:45:\t46.2 kg\n' \
+                           '2021.06.14 07:36:\t47.8 kg'
+        controller.show_measurements()
+        captured = capsys.readouterr().out
+        assert expected_outcome in captured

@@ -10,21 +10,19 @@ class Controller:
 
     def _create_view_callbacks(self):
         functions = [('1', self.add_measurement),
+                     ('2', self.show_measurements),
                      ('3', self.avg_weight)]
         for f in functions:
             self.view.add_callback(f[0], f[1])
 
-    def _convert_date(self, date_str):
-        day_str, hour_str = date_str.split(' ')
-        year, month, day = day_str.split('.')
-        hour, minute = hour_str.split(':')
-        return dt(int(year), int(month), int(day), int(hour), int(minute))
-
     def add_measurement(self):
-        date_str, weight_str = self.view.get_measurement()
-        date = self._convert_date(date_str)
-        weight = float(weight_str)
+        date, weight = self.view.get_measurement()
         self.weight.add_measurement(date, weight)
+
+    def show_measurements(self):
+        start_date, end_date = self.view.get_date_range()
+        measurements = self.weight.get_measurements(start_date, end_date)
+        self.view.show_measurements(measurements)
 
     def avg_weight(self):
         avg_weight = self.weight.avg_weight()
