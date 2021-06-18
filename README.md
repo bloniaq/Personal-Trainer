@@ -20,6 +20,13 @@ Navigate into project dir in terminal/shell. Command to run the app:
 
 * 0.0.1
     * Collecting measurements. Calculates average body weight.
+  
+## TODO
+
+* SQLite database for data storage
+* Flask-based GUI with graphs
+* Managing energy value of meals
+
 
 ## Meta
 
