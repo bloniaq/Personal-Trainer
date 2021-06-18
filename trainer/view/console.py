@@ -2,7 +2,8 @@ from datetime import datetime as dt
 
 DATEFORMAT = '%Y.%m.%d %H:%M'
 
-class ConsoleView():
+
+class ConsoleView:
 
     def __init__(self):
         self.callbacks = {}
@@ -26,7 +27,7 @@ class ConsoleView():
         print('')
         date = input('Enter the date of measurement (YYYY.MM.DD HH:mm):\n')
         print('Measurement saved.')
-        return (self._convert_date(date), float(weight))
+        return self._convert_date(date), float(weight)
 
     def get_date_range(self):
         # TODO: Implement case when user don't pass any date, or pass only one
@@ -35,7 +36,7 @@ class ConsoleView():
         start_date = input('Enter start date (YYYY.MM.DD):\n') + ' 00:00'
         print('')
         end_date = input('Enter end date (YYYY.MM.DD):\n') + ' 23:59'
-        return (self._convert_date(start_date), self._convert_date(end_date))
+        return self._convert_date(start_date), self._convert_date(end_date)
 
     def show_measurements(self, measurements):
         # TODO: Add some title prints etc.

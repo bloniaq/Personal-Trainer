@@ -1,5 +1,6 @@
 from datetime import datetime as dt
 
+
 class Weight:
 
     def __init__(self):

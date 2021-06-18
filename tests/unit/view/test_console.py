@@ -1,20 +1,24 @@
 import trainer.view.console as cons
 from datetime import datetime as dt
 
+
 def test_init_console_view():
     view = cons.ConsoleView()
     assert view is not None
     assert type(view.callbacks) is dict
+
 
 def test_menu_start_and_exit(monkeypatch):
     view = cons.ConsoleView()
     monkeypatch.setattr('builtins.input', lambda value: '0')
     assert view._menu() == '0'
 
+
 def test_run_start_and_exit(monkeypatch):
     view = cons.ConsoleView()
     monkeypatch.setattr('builtins.input', lambda value: '0')
     assert view.run() == '0'
+
 
 def test_add_callbacks():
     view = cons.ConsoleView()
@@ -25,14 +29,16 @@ def test_add_callbacks():
     view.add_callback('2', func)
     assert view.callbacks['2'] == func
 
+
 def test_get_measurement(monkeypatch):
     view = cons.ConsoleView()
     date_str = '2021.05.24 6:52'
     weight = '98.2'
     inputs = iter([weight, date_str])
     date = dt(2021, 5, 24, 6, 52)
-    monkeypatch.setattr('builtins.input', lambda input: next(inputs))
+    monkeypatch.setattr('builtins.input', lambda inp: next(inputs))
     assert view.get_measurement() == (date, float(weight))
+
 
 def test_get_date_range(monkeypatch):
     view = cons.ConsoleView()
@@ -41,14 +47,16 @@ def test_get_date_range(monkeypatch):
     start_date = dt(2021, 5, 24, 0, 0)
     end_date = dt(2021, 5, 26, 23, 59)
     inputs = iter([start_date_str, end_date_str])
-    monkeypatch.setattr('builtins.input', lambda input: next(inputs))
+    monkeypatch.setattr('builtins.input', lambda inp: next(inputs))
     assert view.get_date_range() == (start_date, end_date)
+
 
 def test_convert_date():
     view = cons.ConsoleView()
     date_str = '2021.05.24 6:52'
     date = dt(2021, 5, 24, 6, 52)
     assert view._convert_date(date_str) == date
+
 
 def test_show_measurements(capsys):
     view = cons.ConsoleView()

@@ -3,6 +3,7 @@ import pytest
 import trainer.models.weight as weight
 from datetime import datetime as dt
 
+
 @pytest.fixture
 def model_with_measurements():
     model = weight.Weight()
@@ -16,11 +17,13 @@ def model_with_measurements():
         model.add_measurement(m[0], m[1])
     return model
 
+
 def test_init():
     model = weight.Weight()
     assert model is not None
     assert model.add_measurement is not None
     assert model.measurements is not None
+
 
 def test_add_measurement():
     model = weight.Weight()
@@ -30,10 +33,12 @@ def test_add_measurement():
     assert model.measurements[0][0] == date
     assert model.measurements[0][1] == weight_val
 
+
 def test_avg_weight(model_with_measurements):
     model = model_with_measurements
     weight_sum = sum([m[1] for m in model.measurements])
     assert model.avg_weight() == weight_sum / len(model.measurements)
+
 
 def test_get_measurements(model_with_measurements):
     model = model_with_measurements

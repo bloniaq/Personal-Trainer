@@ -34,16 +34,16 @@ class Test_Console:
         controller = console_weight_controller
         assert controller.view.callbacks['1'] == controller.add_measurement
 
-    def test_add_measuerement(self, console_weight_controller, monkeypatch):
+    def test_add_measurement(self, console_weight_controller, monkeypatch):
         controller = console_weight_controller
         date = dt(2021, 5, 24, 6, 52)
         date_str = '2021.05.24 6:52'
-        weight = '98.2'
-        inputs = iter([weight, date_str])
-        monkeypatch.setattr('builtins.input', lambda input: next(inputs))
+        weight_val = '98.2'
+        inputs = iter([weight_val, date_str])
+        monkeypatch.setattr('builtins.input', lambda inp: next(inputs))
         controller.add_measurement()
         assert controller.weight.measurements[0][0] == date
-        assert controller.weight.measurements[0][1] == float(weight)
+        assert controller.weight.measurements[0][1] == float(weight_val)
 
     def test_avg_weight(self, console_weight_controller, monkeypatch, capsys):
         controller = console_weight_controller
@@ -52,7 +52,7 @@ class Test_Console:
         date_2 = '2021.06.24 6:52'
         weight_2 = '100'
         inputs = iter([weight_1, date_1, weight_2, date_2])
-        monkeypatch.setattr('builtins.input', lambda input: next(inputs))
+        monkeypatch.setattr('builtins.input', lambda inp: next(inputs))
         controller.add_measurement()
         controller.add_measurement()
         controller.avg_weight()
@@ -73,7 +73,7 @@ class Test_Console:
         start_date = '2021.06.12'
         end_date = '2021.06.14'
         inputs = iter([start_date, end_date])
-        monkeypatch.setattr('builtins.input', lambda input: next(inputs))
+        monkeypatch.setattr('builtins.input', lambda inp: next(inputs))
         expected_outcome = '2021.06.12 07:45:\t45.6 kg\n' \
                            '2021.06.13 07:45:\t46.2 kg\n' \
                            '2021.06.14 07:36:\t47.8 kg'

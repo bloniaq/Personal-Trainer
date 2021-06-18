@@ -3,6 +3,7 @@ import trainer.view.console
 import trainer.controller
 import trainer.models.weight
 
+
 def test_three_measurements_console(capsys, monkeypatch):
     w1 = 99.9
     d1 = '2021.06.16 07:37'
