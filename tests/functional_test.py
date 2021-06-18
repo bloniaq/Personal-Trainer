@@ -17,7 +17,7 @@ def test_three_measurements_console(capsys, monkeypatch):
                       str(w2), d2,
                       '1',
                       str(w3), d3,
-                      '3',
+                      '3', '', '',
                       '0'])
     w_list = [w1, w2, w3]
     monkeypatch.setattr('builtins.input', lambda value: next(responses))

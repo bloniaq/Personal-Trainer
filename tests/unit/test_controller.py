@@ -48,16 +48,17 @@ class Test_Console:
     def test_avg_weight(self, console_weight_controller, monkeypatch, capsys):
         controller = console_weight_controller
         date_1 = '2021.05.24 6:52'
-        weight_1 = '98'
-        date_2 = '2021.06.24 6:52'
-        weight_2 = '100'
-        inputs = iter([weight_1, date_1, weight_2, date_2])
+        weight_1 = '97'
+        date_2 = '2021.05.17 6:52'
+        weight_2 = '101'
+        inputs = iter([weight_1, date_1, weight_2, date_2, '', '', '', ''])
         monkeypatch.setattr('builtins.input', lambda inp: next(inputs))
         controller.add_measurement()
         controller.add_measurement()
         controller.avg_weight()
         message = 'Average weight is 99.0 kg'
         captured = capsys.readouterr().out
+        print(captured)
         assert message in captured
 
     def test_show_measurements(self, console_weight_controller, monkeypatch,
@@ -72,12 +73,41 @@ class Test_Console:
         controller.weight.measurements = measurements
         start_date = '2021.06.12'
         end_date = '2021.06.14'
-        inputs = iter([start_date, end_date])
+        inputs = iter([start_date, end_date, '', ''])
         monkeypatch.setattr('builtins.input', lambda inp: next(inputs))
         expected_outcome = '\n\n# MEASUREMENTS\n\n'\
                            '2021.06.12 07:45:\t45.6 kg\n' \
                            '2021.06.13 07:45:\t46.2 kg\n' \
                            '2021.06.14 07:36:\t47.8 kg'
         controller.show_measurements()
+        captured = capsys.readouterr().out
+        assert expected_outcome in captured
+        controller.show_measurements()
+        captured = capsys.readouterr().out
+        expected_outcome_no_range = '\n\n# MEASUREMENTS\n\n' \
+                                    '2021.06.10 07:53:\t45.5 kg\n' \
+                                    '2021.06.11 09:11:\t45.3 kg\n' \
+                                    '2021.06.12 07:45:\t45.6 kg\n' \
+                                    '2021.06.13 07:45:\t46.2 kg\n' \
+                                    '2021.06.14 07:36:\t47.8 kg\n' \
+                                    '2021.06.15 08:02:\t46.9 kg'
+        assert expected_outcome_no_range in captured
+
+    def test_avg_weight_in_date_range(self, console_weight_controller,
+                                      monkeypatch, capsys):
+        controller = console_weight_controller
+        measurements = [(dt(2021, 6, 10, 7, 53), 45.5),
+                        (dt(2021, 6, 11, 9, 11), 45.3),
+                        (dt(2021, 6, 12, 7, 45), 45.6),
+                        (dt(2021, 6, 13, 7, 45), 46.2),
+                        (dt(2021, 6, 14, 7, 36), 47.8),
+                        (dt(2021, 6, 15, 8, 2), 46.9)]
+        controller.weight.measurements = measurements
+        start_date = '2021.06.12'
+        end_date = '2021.06.14'
+        inputs = iter([start_date, end_date])
+        monkeypatch.setattr('builtins.input', lambda inp: next(inputs))
+        expected_outcome = 'Average weight is 46.5 kg'
+        controller.avg_weight()
         captured = capsys.readouterr().out
         assert expected_outcome in captured

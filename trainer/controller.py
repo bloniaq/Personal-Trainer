@@ -20,9 +20,11 @@ class Controller:
         start_date, end_date = self.view.get_date_range()
         measurements = self.weight.get_measurements(start_date, end_date)
         self.view.show_measurements(measurements)
+        return start_date, end_date, measurements
 
     def avg_weight(self):
-        avg_weight = self.weight.avg_weight()
+        start_date, end_date = self.view.get_date_range()
+        avg_weight = self.weight.avg_weight(start_date, end_date)
         self.view.show_avg_weight(avg_weight)
 
     def run(self):

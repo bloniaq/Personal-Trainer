@@ -21,20 +21,30 @@ class ConsoleView:
         return option
 
     def get_measurement(self):
-        print('\n\n# ADD MEASUREMENT\n')
+        print('\n\n# ADD MEASUREMENT')
         weight = input('Enter the weight:\n')
         print('')
         date = input('Enter the date of measurement (YYYY.MM.DD HH:mm):\n')
-        print('Measurement saved.')
+        print('Measurement ({}: {}kg) saved.'.format(date, weight))
         return self._convert_date(date), float(weight)
 
     def get_date_range(self):
         # TODO: Implement case when user don't pass any date, or pass only one
         print('\nEnter date range')
         print('')
-        start_date = input('Enter start date (YYYY.MM.DD):\n') + ' 00:00'
+        start_date = input('Enter start date (YYYY.MM.DD) or leave empty:\n')
+        if start_date == '':
+            start_date = None
+        else:
+            start_date += ' 00:00'
         print('')
-        end_date = input('Enter end date (YYYY.MM.DD):\n') + ' 23:59'
+        end_date = input('Enter end date (YYYY.MM.DD) or leave empty:\n')
+
+        if end_date == '':
+            end_date = None
+        else:
+            end_date += ' 23:59'
+        print('Date range: START:{}\tEND:{}'.format(start_date, end_date))
         return self._convert_date(start_date), self._convert_date(end_date)
 
     def show_measurements(self, measurements):
@@ -58,5 +68,7 @@ class ConsoleView:
         return choice
 
     def _convert_date(self, date_str):
-        date = dt.strptime(date_str, DATEFORMAT)
-        return date
+        if date_str is not None:
+            return dt.strptime(date_str, DATEFORMAT)
+        else:
+            return None

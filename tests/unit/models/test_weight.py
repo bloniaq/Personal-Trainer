@@ -38,6 +38,8 @@ def test_avg_weight(model_with_measurements):
     model = model_with_measurements
     weight_sum = sum([m[1] for m in model.measurements])
     assert model.avg_weight() == weight_sum / len(model.measurements)
+    assert model.avg_weight(
+        dt(2021, 6, 14), dt(2021, 6, 15)) == pytest.approx(47.4, abs=.1)
 
 
 def test_get_measurements(model_with_measurements):
