@@ -14,7 +14,7 @@ setup(
     description="Manage your body parameters",
     long_description=README,
     long_description_content_type="text/markdown",
-    url="https://github.com/bloniaq/personal_trainer",
+    url="https://github.com/bloniaq/Personal-Trainer",
     author="Jakub Błoński",
     author_email="",
     license="MIT",
