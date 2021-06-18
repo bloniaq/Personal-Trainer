@@ -74,7 +74,8 @@ class Test_Console:
         end_date = '2021.06.14'
         inputs = iter([start_date, end_date])
         monkeypatch.setattr('builtins.input', lambda inp: next(inputs))
-        expected_outcome = '2021.06.12 07:45:\t45.6 kg\n' \
+        expected_outcome = '\n\n# MEASUREMENTS\n\n'\
+                           '2021.06.12 07:45:\t45.6 kg\n' \
                            '2021.06.13 07:45:\t46.2 kg\n' \
                            '2021.06.14 07:36:\t47.8 kg'
         controller.show_measurements()

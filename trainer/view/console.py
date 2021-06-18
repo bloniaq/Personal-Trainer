@@ -21,8 +21,7 @@ class ConsoleView:
         return option
 
     def get_measurement(self):
-        print('\n# ADD MEASUREMENT')
-        print('')
+        print('\n\n# ADD MEASUREMENT\n')
         weight = input('Enter the weight:\n')
         print('')
         date = input('Enter the date of measurement (YYYY.MM.DD HH:mm):\n')
@@ -39,14 +38,14 @@ class ConsoleView:
         return self._convert_date(start_date), self._convert_date(end_date)
 
     def show_measurements(self, measurements):
-        # TODO: Add some title prints etc.
+        print('\n\n# MEASUREMENTS\n')
         for m in measurements:
             record = m[0].strftime(DATEFORMAT) + ':\t' + str(m[1]) + ' kg'
             print(record)
 
     def show_avg_weight(self, value):
-        # TODO: Improve prints
-        print('Average weight is {} kg'.format(str(round(value, 1))))
+        print('\n\n# AVERAGE WEIGHT\n')
+        print('\nAverage weight is {} kg'.format(str(round(value, 1))))
 
     def _menu(self):
         print('\n### MENU ###')

@@ -67,7 +67,8 @@ def test_show_measurements(capsys):
                     (dt(2021, 6, 14, 7, 36), 47.8),
                     (dt(2021, 6, 15, 8, 2), 46.9)]
     view.show_measurements(measurements)
-    expected_outcome = '2021.06.10 07:53:\t45.5 kg\n' \
+    expected_outcome = '\n\n# MEASUREMENTS\n\n'\
+                       '2021.06.10 07:53:\t45.5 kg\n' \
                        '2021.06.11 09:11:\t45.3 kg\n' \
                        '2021.06.12 07:45:\t45.6 kg\n' \
                        '2021.06.13 07:45:\t46.2 kg\n' \
