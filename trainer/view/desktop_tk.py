@@ -1,15 +1,66 @@
 import tkinter as tk
 from tkinter import ttk
+from datetime import datetime as dt
+
+DATEFORMAT = '%Y.%m.%d %H:%M'
 
 
 class DesktopView:
 
     def __init__(self):
-        self.build = TkBuild()
-        self.root = self.build.root
+        self.bld = TkBuild()
+        self.root = self.bld.root
+        self.callbacks = {}
+
+    def add_callback(self, key, method):
+        """Add a callback method with its key
+
+        :param key: str
+            The id key of function
+        :param method: method
+            The binded method
+        :return: None
+        """
+        self.callbacks[key] = method
 
     def run(self):
         self.root.mainloop()
+
+    def get_measurement(self):
+        """Get value of measurement and date of measure from user.
+
+        :return: tuple
+            Pair of date formatted by datetime and float value of weight
+        """
+        weight = self.bld.var_msrment.get()
+        date = self.bld.var_date.get()
+        return self._convert_date(date), float(weight)
+
+    def show_measurements(self, measurements):
+        """Print measurements.
+
+        :param measurements: list
+            The list of measurements. Each element is a tuple of datetime
+            formated date, and float value of measurement.
+        :return: None
+        """
+        self.bld.trv_records.delete(* self.bld.trv_records.get_children())
+        for m in measurements:
+            date_str = m[0].strftime(DATEFORMAT)
+            value_str = str(m[1]) + ' kg'
+            self.bld.trv_records.insert("", 'end', values=[date_str, value_str])
+
+    def _convert_date(self, date_str):
+        """Convert input date to datetime format
+
+        :param date_str: str
+            The unformatted date
+        :return: datetime or None
+        """
+        if date_str is not None:
+            return dt.strptime(date_str, DATEFORMAT)
+        else:
+            return None
 
 
 class TkBuild:
@@ -50,9 +101,14 @@ class TkBuild:
         # self.frm_msrment_inn.grid(row=0, column=0, padx=10, pady=10)
         self.frm_msrment_inn.place(in_=self.frm_msrment, anchor="c", relx=.5,
                                    rely=.5)
+
+        self.var_msrment = tk.StringVar()
+        self.var_date = tk.StringVar()
+
         self.lbl_msrdate1 = tk.Label(self.frm_msrment_inn, text="Data Pomiaru")
         self.lbl_msrdate2 = tk.Label(self.frm_msrment_inn, text="YYYY.MM.DD GG:mm")
-        self.ent_msrdate = tk.Entry(self.frm_msrment_inn, width=15)
+        self.ent_msrdate = tk.Entry(self.frm_msrment_inn, width=15,
+                                    textvariable=self.var_date)
         self.lbl_msrval = tk.Label(self.frm_msrment_inn, text="Pomiar (kg)")
         self.ent_msrval = tk.Entry(self.frm_msrment_inn, width=15)
         self.lbl_msrdate1.grid(row=0, column=0)
@@ -61,7 +117,8 @@ class TkBuild:
         self.lbl_msrval.grid(row=3, column=0)
         self.ent_msrval.grid(row=4, column=0)
 
-        self.btn_now = tk.Button(self.frm_msrment_inn, text="Teraz")
+        self.btn_now = tk.Button(self.frm_msrment_inn, text="Teraz",
+                                 command=self.put_now_dt)
         self.btn_now.grid(row=2, column=1)
 
         self.btn_addmsrment = tk.Button(self.frm_msrment_inn, width=10,
@@ -93,10 +150,15 @@ class TkBuild:
         # Frame Navigation
         self.frm_navi_inn = tk.Frame(self.frm_navi)
         self.frm_navi_inn.place(in_=self.frm_navi, anchor="c", relx=.5,
-                                   rely=.5)
+                                rely=.5)
         self.btn_delmsrment = tk.Button(self.frm_navi_inn, width=20, height=2,
                                         text="Usuń Pomiar")
         self.btn_delmsrment.grid(row=0, column=0)
         self.btn_avgweight = tk.Button(self.frm_navi_inn, width=20, height=2,
                                        text="Średnia Waga")
         self.btn_avgweight.grid(row=1, column=0)
+
+    def put_now_dt(self):
+        now = dt.now().strftime(DATEFORMAT)
+        self.var_date.set(now)
+        return now
