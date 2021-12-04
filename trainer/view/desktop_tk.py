@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from datetime import datetime as dt
+from trainer.exceptions import InvalidDateRangeError
 
 DATEFORMAT = '%Y.%m.%d %H:%M'
 
@@ -49,6 +50,22 @@ class DesktopView:
             date_str = m[0].strftime(DATEFORMAT)
             value_str = str(m[1]) + ' kg'
             self.bld.trv_records.insert("", 'end', values=[date_str, value_str])
+
+    def get_date_range(self):
+        selection = self.bld.trv_records.selection()
+        if len(selection) == 0:
+            raise InvalidDateRangeError
+        else:
+            print('selection', selection)
+            print('selection[0]', selection[0])
+            start_date = self.bld.trv_records.item(selection[0])['values'][0]
+            end_date = self.bld.trv_records.item(selection[-1])['values'][0]
+            return self._convert_date(start_date), self._convert_date(end_date)
+
+    def show_avg_weight(self, value):
+        self.bld.lbl_reslin1.config(text="Średnia waga")
+        self.bld.lbl_reslin2.config(text="w wybranym okresie")
+        self.bld.lbl_reslin3.config(text=str(value) + ' kg')
 
     def _convert_date(self, date_str):
         """Convert input date to datetime format
