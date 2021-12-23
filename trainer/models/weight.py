@@ -28,6 +28,9 @@ class Weight:
         :return: float
         """
         measurements = self.get_measurements(start_date, end_date)
+        print('measurements from get_measurements : ', measurements)
+        for m in measurements:
+            print(m)
         return sum([m[1] for m in measurements]) / len(measurements)
 
     def get_measurements(self, start_date=None, end_date=None, prec='day'):
@@ -50,7 +53,8 @@ class Weight:
             end_date = end_date.replace(hour=23, minute=59)
         result = []
         for m in self.measurements:
-            if m[0] > start_date and m[0] < end_date:
+            if m[0] >= start_date and m[0] < end_date:
                 result.append(m)
+        print('results: ', result)
 
         return result

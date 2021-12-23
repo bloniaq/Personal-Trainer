@@ -19,6 +19,9 @@ class ConsoleView:
         """
         self.callbacks[key] = method
 
+    def bind_actions(self):
+        pass
+
     def run(self):
         """Run menu loop
 

@@ -24,6 +24,10 @@ class DesktopView:
         """
         self.callbacks[key] = method
 
+    def bind_actions(self):
+        self.bld.btn_addmsrment.config(command=self.callbacks['1'])
+        self.bld.btn_avgweight.config(command=self.callbacks['3'])
+
     def run(self):
         self.root.mainloop()
 
@@ -35,6 +39,7 @@ class DesktopView:
         """
         weight = self.bld.var_msrment.get()
         date = self.bld.var_date.get()
+        # self.callbacks['2']()
         return self._convert_date(date), float(weight)
 
     def show_measurements(self, measurements):
@@ -46,23 +51,38 @@ class DesktopView:
         :return: None
         """
         self.bld.trv_records.delete(* self.bld.trv_records.get_children())
+        counter = 0
         for m in measurements:
+            counter += 1
             date_str = m[0].strftime(DATEFORMAT)
             value_str = str(m[1]) + ' kg'
-            self.bld.trv_records.insert("", 'end', values=[date_str, value_str])
+            self.bld.trv_records.insert("", 'end', values=[counter, date_str,
+                                                           value_str])
 
     def get_date_range(self):
+        """Get date range from user
+
+        :return: tuple
+            Pair of dates
+        """
         selection = self.bld.trv_records.selection()
         if len(selection) == 0:
-            raise InvalidDateRangeError
+            start_date = None
+            end_date = None
         else:
-            print('selection', selection)
-            print('selection[0]', selection[0])
-            start_date = self.bld.trv_records.item(selection[0])['values'][0]
-            end_date = self.bld.trv_records.item(selection[-1])['values'][0]
-            return self._convert_date(start_date), self._convert_date(end_date)
+            print('selection: ', selection)
+            print('selection[0]: ', selection[0])
+            print('selection[-1]: ', selection[-1])
+            print('item: ', self.bld.trv_records.item(selection[0]))
+            print('values: ', self.bld.trv_records.item(selection[0])['values'])
+            start_date = self.bld.trv_records.item(selection[0])['values'][1]
+            end_date = self.bld.trv_records.item(selection[-1])['values'][1]
+            print('start date: ', start_date)
+            print('end date: ', end_date)
+        return self._convert_date(start_date), self._convert_date(end_date)
 
     def show_avg_weight(self, value):
+        value = round(value, 1)
         self.bld.lbl_reslin1.config(text="Średnia waga")
         self.bld.lbl_reslin2.config(text="w wybranym okresie")
         self.bld.lbl_reslin3.config(text=str(value) + ' kg')
@@ -127,7 +147,8 @@ class TkBuild:
         self.ent_msrdate = tk.Entry(self.frm_msrment_inn, width=15,
                                     textvariable=self.var_date)
         self.lbl_msrval = tk.Label(self.frm_msrment_inn, text="Pomiar (kg)")
-        self.ent_msrval = tk.Entry(self.frm_msrment_inn, width=15)
+        self.ent_msrval = tk.Entry(self.frm_msrment_inn, width=15,
+                                   textvariable=self.var_msrment)
         self.lbl_msrdate1.grid(row=0, column=0)
         self.lbl_msrdate2.grid(row=1, column=0)
         self.ent_msrdate.grid(row=2, column=0)

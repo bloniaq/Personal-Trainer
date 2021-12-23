@@ -1,3 +1,6 @@
+import trainer.view.desktop_tk
+
+
 class Controller:
 
     def __init__(self, view, weight):
@@ -21,6 +24,8 @@ class Controller:
         for f in functions:
             self.view.add_callback(f[0], f[1])
 
+        self.view.bind_actions()
+
     def add_measurement(self):
         """Add a measurement
 
@@ -28,6 +33,8 @@ class Controller:
         """
         date, weight = self.view.get_measurement()
         self.weight.add_measurement(date, weight)
+        if isinstance(self.view, trainer.view.desktop_tk.DesktopView):
+            self.show_measurements()
 
     def show_measurements(self):
         """Print the measurements taken in the time period
