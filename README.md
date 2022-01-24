@@ -30,8 +30,6 @@ Navigate into project dir in terminal/shell. Command to run the app:
 
 ## Meta
 
-[@Bloniaq](https://twitter.com/Bloniaq)
-
 Distributed under the MIT license. See ``LICENSE`` for more information.
 
 [https://github.com/bloniaq](https://github.com/bloniaq/)
