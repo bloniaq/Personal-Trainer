@@ -1,11 +1,6 @@
 import datetime as dt
 
 
-class Profile:
-
-    pass
-
-
 class Person:
 
     def __init__(self):
@@ -25,3 +20,8 @@ class Person:
 
     def set_birthdate(self, new_date):
         self.birth_date = new_date
+
+
+class Profile(Person):
+
+    pass

@@ -6,7 +6,11 @@ import datetime as dt
 class TestProfile:
 
     def test_init(self):
-        assert profile.Profile() is not None
+        prof = profile.Profile()
+        assert prof is not None
+        assert profile.Person().__dict__.items() <= prof.__dict__.items()
+        assert prof.name is ''
+        assert prof.birth_date == dt.datetime(1970, 1, 1, 0, 0)
 
 
 class TestPerson:
