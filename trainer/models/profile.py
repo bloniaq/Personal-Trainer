@@ -1,4 +1,5 @@
 import datetime as dt
+from trainer.models.dataseries import CATALOG as catalog
 
 
 class Person:
@@ -24,4 +25,10 @@ class Person:
 
 class Profile(Person):
 
-    pass
+    def __init__(self):
+
+        Person.__init__(self)
+        self.series = {}
+
+    def add_series(self, series_symbol):
+        self.series[series_symbol] = catalog[series_symbol]

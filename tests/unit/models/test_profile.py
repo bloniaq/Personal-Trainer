@@ -1,4 +1,5 @@
 import trainer.models.profile as profile
+from trainer.models.dataseries import CATALOG as catalog
 
 import datetime as dt
 
@@ -11,6 +12,14 @@ class TestProfile:
         assert profile.Person().__dict__.items() <= prof.__dict__.items()
         assert prof.name is ''
         assert prof.birth_date == dt.datetime(1970, 1, 1, 0, 0)
+        assert isinstance(prof.series, dict)
+
+    def test_add_weights_series(self):
+        prof = profile.Profile()
+        assert isinstance(prof.series, dict)
+        assert prof.series == {}
+        prof.add_series('weights')
+        assert prof.series == {'weights': catalog['weights']}
 
 
 class TestPerson:
