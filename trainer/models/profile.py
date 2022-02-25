@@ -1,4 +1,5 @@
 import datetime as dt
+import sqlite3
 from trainer.models.dataseries import CATALOG as catalog
 
 
@@ -25,10 +26,9 @@ class Person:
 
 class Profile(Person):
 
-    def __init__(self):
+    def __init__(self, login):
+
+        self.login = login
 
         Person.__init__(self)
-        self.series = {}
-
-    def add_series(self, series_symbol):
-        self.series[series_symbol] = catalog[series_symbol]
+        self.con = sqlite3.connect(":memory:")

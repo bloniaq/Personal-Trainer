@@ -2,24 +2,23 @@ import trainer.models.profile as profile
 from trainer.models.dataseries import CATALOG as catalog
 
 import datetime as dt
+import sqlite3
 
 
 class TestProfile:
 
     def test_init(self):
-        prof = profile.Profile()
+        prof = profile.Profile('non-existing-profile')
         assert prof is not None
         assert profile.Person().__dict__.items() <= prof.__dict__.items()
         assert prof.name is ''
+        assert prof.login is 'non-existing-profile'
         assert prof.birth_date == dt.datetime(1970, 1, 1, 0, 0)
-        assert isinstance(prof.series, dict)
+        assert isinstance(prof.con, sqlite3.Connection)
 
-    def test_add_weights_series(self):
-        prof = profile.Profile()
-        assert isinstance(prof.series, dict)
-        assert prof.series == {}
-        prof.add_series('weights')
-        assert prof.series == {'weights': catalog['weights']}
+    def test_db_init_new_profile(self):
+        prof = profile.Profile('non-existing-profile')
+
 
 
 class TestPerson:
