@@ -5,6 +5,9 @@
 # Utils, Sandpit
 /Utils/
 
+# Pytest temp
+/tests/tmp/
+
 ### Visio ###
 
 # Temp backup files
