@@ -8,7 +8,7 @@ class Person:
     def __init__(self):
         self.name = ''
         self.birth_date = dt.datetime(1970, 1, 1, 0, 0)
-        self.sex = None
+        self.sex = 'unknown'
         self.height = 0
 
     def set_name(self, new_name):
@@ -29,6 +29,14 @@ class Profile(Person):
     def __init__(self, login):
 
         self.login = login
+        self.db_path = './profiles/' + self.login + '.db'
 
         Person.__init__(self)
-        self.con = sqlite3.connect(":memory:")
+
+
+    def create_profile(self, name: str, sex: str, height: int, db_path):
+        self.name = name
+        self.sex = sex
+        self.height = height
+        print(db_path)
+        self.con = sqlite3.connect(db_path)
