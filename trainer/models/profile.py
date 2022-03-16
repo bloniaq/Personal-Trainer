@@ -29,14 +29,13 @@ class Profile(Person):
     def __init__(self, login):
 
         self.login = login
-        self.db_path = './profiles/' + self.login + '.db'
+        db_path = './profiles/' + self.login + '.db'
+        self.con = sqlite3.connect(db_path)
 
         Person.__init__(self)
 
 
-    def create_profile(self, name: str, sex: str, height: int, db_path):
+    def create_profile(self, name: str, sex: str, height: int):
         self.name = name
         self.sex = sex
         self.height = height
-        print(db_path)
-        self.con = sqlite3.connect(db_path)

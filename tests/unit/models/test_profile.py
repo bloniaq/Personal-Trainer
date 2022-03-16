@@ -3,21 +3,35 @@ from trainer.models.dataseries import CATALOG as catalog
 
 import datetime as dt
 import sqlite3
+import os
 
 
 class TestProfile:
 
     def test_init(self):
-        prof = profile.Profile('non-existing-profile')
+        prof = profile.Profile('stefan')
         assert prof is not None
         assert profile.Person().__dict__.items() <= prof.__dict__.items()
-        assert prof.name is ''
-        assert prof.login is 'non-existing-profile'
-        assert prof.birth_date == dt.datetime(1970, 1, 1, 0, 0)
+        assert prof.login is 'stefan'
+
+    def test_create_profile(self):
+        prof = profile.Profile('stefan')
+        prof.create_profile('Stefan', 'male', 175)
+        assert prof.name == 'Stefan'
+        assert prof.sex == 'male'
+        assert prof.height == 175
         assert isinstance(prof.con, sqlite3.Connection)
 
-    def test_db_init_new_profile(self):
-        prof = profile.Profile('non-existing-profile')
+    # def test_create_db_file(self, tmp_path):
+    #
+    #     assert isinstance(prof.con, sqlite3.Connection)
+    #     # for id_, name, filename in prof.con.execute('PRAGMA database_list'):
+    #     #     if name == 'main' and filename is not None:
+    #     #         db_filepath = filename
+    #     #         break
+    #     # expected_filepath = os.getcwd() + '\\profiles\\' + prof.login + '.db'
+    #     # assert db_filepath == expected_filepath
+    #     # os.remove(expected_filepath)
 
 
 
@@ -28,7 +42,7 @@ class TestPerson:
         assert person is not None
         assert person.name is ''
         assert person.birth_date == dt.datetime(1970, 1, 1, 0, 0)
-        assert person.sex is None
+        assert person.sex is 'unknown'
         assert person.height == 0
 
     def test_set_name(self):
