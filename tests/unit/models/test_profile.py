@@ -16,11 +16,17 @@ class TestProfile:
 
     def test_create_profile(self):
         prof = profile.Profile('stefan')
-        prof.create_profile('Stefan', 'male', 175)
-        assert prof.name == 'Stefan'
-        assert prof.sex == 'male'
-        assert prof.height == 175
+        prof.create_profile('Stefan', 'male', 175, '1973-04-20')
         assert isinstance(prof.con, sqlite3.Connection)
+        cur = prof.con.cursor()
+        cur.execute("SELECT * FROM person")
+        person = cur.fetchall()
+        print(person)
+        assert person[0]['login'] == 'stefan'
+        assert person[0]['name'] == 'Stefan'
+        assert person[0]['sex'] == 'male'
+        assert person[0]['height'] == 175
+        assert person[0]['dateofbirth'] == '1973-04-20'
 
     # def test_create_db_file(self, tmp_path):
     #
