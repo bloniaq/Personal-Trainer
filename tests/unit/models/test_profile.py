@@ -3,7 +3,6 @@ from trainer.models.dataseries import CATALOG as catalog
 
 import datetime as dt
 import sqlite3
-import os
 
 
 class TestProfile:
@@ -27,18 +26,6 @@ class TestProfile:
         assert person[0]['sex'] == 'male'
         assert person[0]['height'] == 175
         assert person[0]['dateofbirth'] == '1973-04-20'
-
-    # def test_create_db_file(self, tmp_path):
-    #
-    #     assert isinstance(prof.con, sqlite3.Connection)
-    #     # for id_, name, filename in prof.con.execute('PRAGMA database_list'):
-    #     #     if name == 'main' and filename is not None:
-    #     #         db_filepath = filename
-    #     #         break
-    #     # expected_filepath = os.getcwd() + '\\profiles\\' + prof.login + '.db'
-    #     # assert db_filepath == expected_filepath
-    #     # os.remove(expected_filepath)
-
 
 
 class TestPerson:
